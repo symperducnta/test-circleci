@@ -2,13 +2,23 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+orbs:
+  go: circleci/go@1.7.3
+
 jobs:
-  format-and-lint:
+  format_and_lint:
+    executor:
+      name: go/default # Use the default executor from the orb
+      tag: '1.22.3' # Specify a version tag
+
     docker:
       - image: cimg/base:current
 
     steps:
       - checkout
+      - go/load-cache # Load cached Go modules.
+      - go/mod-download # Run 'go mod download'.
+      - go/save-cache # Save Go modules to cache.
       - run:
           name: "format code"
           command: "go fmt ./..."
@@ -18,4 +28,4 @@ jobs:
 workflows:
   test-workflow:
     jobs:
-      - format-and-lint
+      - format_and_lint

@@ -6,23 +6,24 @@ orbs:
   go: circleci/go@1.7.3
 
 jobs:
-  format_and_lint:
+  build_and_test: # this can be any name you choose
     executor:
       name: go/default # Use the default executor from the orb
-      tag: '1.23.2' # Specify a version tag
-
-    docker:
-      - image: cimg/base:current
-
+      tag: '1.19.2' # Specify a version tag
     steps:
-      - checkout
-      - run:
-          name: "format code"
-          command: "go fmt ./..."
+      - checkout # checkout source code
+      - run: 'go fmt ./...'
+      - go/load-cache # Load cached Go modules.
+      - go/mod-download # Run 'go mod download'.
+      - go/save-cache # Save Go modules to cache.
+      - go/test: # Runs 'go test ./...' but includes extensive parameterization for finer tuning.
+          covermode: atomic
+          failfast: true
+          race: true
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   test-workflow:
     jobs:
-      - format_and_lint
+      - build_and_test

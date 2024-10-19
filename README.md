@@ -1,2 +1,2 @@
 # test-circleci
-test circle-ci
+this is a project use circle-ci

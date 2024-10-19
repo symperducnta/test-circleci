@@ -13,9 +13,9 @@ jobs:
     steps:
       - checkout # checkout source code
       - run: 'go fmt ./...'
-      - go/load-cache # Load cached Go modules.
+      - run: 'curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.61.0'
       - go/mod-download # Run 'go mod download'.
-      - go/save-cache # Save Go modules to cache.
+      - run: 'golangci-lint --version''
       - go/test: # Runs 'go test ./...' but includes extensive parameterization for finer tuning.
           covermode: atomic
           failfast: true

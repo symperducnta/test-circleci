@@ -1,3 +1,3 @@
 module github.com/symperducnta/test-circleci
 
-go 1.19.2
+go 1.23.1

@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
-	fmt.Println("hello ci")
+	user := "Duc"
+	arr := []int{1, 2}
+
+	fmt.Printf("%s, hello ci with password: %s", user, arr[3])
 }
